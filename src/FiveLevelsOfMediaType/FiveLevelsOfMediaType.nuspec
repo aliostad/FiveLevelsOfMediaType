@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AspNetWebApi.FiveLevelsOfMediaType</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Ali Kheyrollahi</authors>
+    <owners>Ali Kheyrollahi</owners>
+    <projectUrl>https://github.com/aliostad/FiveLevelsOfMediaType</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2013</copyright>
+    <tags>aspnetwebapi http webapi MediaType FiveLevelsOfMediaType</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.WebApi.Core" version="5.0.0.0"  />	
+      <dependency id="AspNetWebApi.ApiActionSelector" version="0.2.0.0"  />		  
+    </dependencies>
+  </metadata>
+</package>

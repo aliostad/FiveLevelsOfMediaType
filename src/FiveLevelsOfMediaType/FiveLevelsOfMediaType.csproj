@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApiActionSelector">
-      <HintPath>..\..\packages\AspNetWebApi.ApiActionSelector.0.1.0.0\lib\net45\ApiActionSelector.dll</HintPath>
+    <Reference Include="ApiActionSelector, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AspNetWebApi.ApiActionSelector.0.2.0.0\lib\net45\ApiActionSelector.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -56,13 +57,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtendedMediaType.cs" />
     <Compile Include="FiveLevelsOfMediaTypeFormatter.cs" />
     <Compile Include="FiveLevelsOfMediaTypeParameters.cs" />
-    <Compile Include="HttpConfigurationExtensions.cs" />
+    <Compile Include="Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Internal\LinqExtensions.cs" />
     <Compile Include="Internal\StringExtensions.cs" />
-    <Compile Include="MediaTypeFormatterCollectionExtensions.cs" />
-    <Compile Include="MediaTypeHeaderExtensions.cs" />
+    <Compile Include="MediaTypeBasedActionSelector.cs" />
+    <Compile Include="Extensions\MediaTypeFormatterCollectionExtensions.cs" />
+    <Compile Include="Extensions\MediaTypeHeaderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
