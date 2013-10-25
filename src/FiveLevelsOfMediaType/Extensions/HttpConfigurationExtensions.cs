@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 
 namespace FiveLevelsOfMediaType
 {
@@ -14,6 +15,8 @@ namespace FiveLevelsOfMediaType
             // formatters
             configuration.Formatters.DecorateFormatters();
 
+            // adding action selector
+            configuration.Services.Replace(typeof(IHttpActionSelector), new MediaTypeBasedActionSelector());
 
         }
     }

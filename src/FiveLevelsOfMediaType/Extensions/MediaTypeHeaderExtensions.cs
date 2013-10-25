@@ -42,7 +42,7 @@ namespace FiveLevelsOfMediaType
             var version = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.Version));
             extendedMediaType.DomainModel = domainModel == null ? string.Empty : domainModel.Value;
             extendedMediaType.Format = format == null ? string.Empty : format.Value;
-            extendedMediaType.IsText = domainModel == null ? null : (bool?) Convert.ToBoolean(isText.Value);
+            extendedMediaType.IsText = isText == null ? null : (bool?) Convert.ToBoolean(isText.Value);
             extendedMediaType.Schema = schema == null ? string.Empty : schema.Value;
             extendedMediaType.Version = version == null ? string.Empty : version.Value;
 
