@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApiActionSelector, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ApiActionSelector, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\AspNetWebApi.ApiActionSelector.0.2.0.0\lib\net45\ApiActionSelector.dll</HintPath>
+      <HintPath>..\..\packages\AspNetWebApi.ApiActionSelector.0.3.0.0\lib\net45\ApiActionSelector.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>

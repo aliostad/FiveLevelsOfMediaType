@@ -7,7 +7,12 @@
 
 
     var oldAjax = $.ajax,
-        contentTypeName = "Content-Type";
+        constants = {
+            contentTypeName: "Content-Type",
+            json: "application/json",
+            forms: "x-www-formurlencoded",
+            domainModel: "domain-model"
+        };
 
     $.ajax = function (topSettings) {
         topSettings = topSettings || {};
@@ -29,13 +34,25 @@
 
     function addFiveLevelsOfMediaType(jqXHR, settings) {
 
-        if (settings.data && settings.dataType && settings.dataType.toLowerCase() == "json") {
-            settings.data = JSON.stringify(settings.data);
-        }
+        var contentType, data;
+        if (settings.data) {
 
-        jqXHR.setRequestHeader(contentTypeName,
-            "application/json;domain-model=" +
-            (settings.data.constructor.domainModel || settings.data.constructor.name));
+            if (settings.dataType && settings.dataType.toLowerCase() == "json") {
+                data = JSON.stringify(settings.data);
+                contentType = constants.json;
+            }
+            else {
+                contentType = constants.forms;
+                data = $.params(settings.data);
+            }
+
+            // set header and data
+            jqXHR.setRequestHeader(constants.contentTypeName,
+                contentType + ";" + constants.domainModel + "=" +
+               (settings.data.constructor.domainModel || settings.data.constructor.name));
+            settings.data = data;
+
+        }
 
     }
 

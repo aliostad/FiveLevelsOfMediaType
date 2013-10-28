@@ -13,7 +13,10 @@
     <tags>aspnetwebapi http webapi MediaType FiveLevelsOfMediaType</tags>
     <dependencies>
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.0.0.0"  />	
-      <dependency id="AspNetWebApi.ApiActionSelector" version="0.2.0.0"  />		  
+      <dependency id="AspNetWebApi.ApiActionSelector" version="0.4.0.0"  />		  
     </dependencies>
   </metadata>
+	<files>
+		<file src="Scripts\jquery-5lmt.js" target="Scripts" />
+	</files>	
 </package>
