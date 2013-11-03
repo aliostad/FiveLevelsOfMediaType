@@ -10,7 +10,7 @@ namespace FiveLevelsOfMediaType
 {
     public class MediaTypeBasedActionSelector : ApiActionSelector
     {
-        protected override ReflectedHttpActionDescriptor ResolveAmbiguousActions(HttpControllerContext context, 
+        protected override ReflectedHttpActionDescriptor ResolveAmbiguousActions(HttpControllerContext context,
             IEnumerable<ReflectedHttpActionDescriptor> actionDescriptors)
         {
             if (context.Request.Content != null && context.Request.Content.Headers.ContentType != null)
@@ -19,17 +19,18 @@ namespace FiveLevelsOfMediaType
                 if (extendedMedaType != null)
                 {
                     var candidate = actionDescriptors.FirstOrDefault(x =>
-                            {
-                                var parameterInfos = x.MethodInfo.GetParameters();
-                                return (parameterInfos[0].ParameterType.Name
-                                            .Equals(
-                                                extendedMedaType.DomainModel,
-                                                StringComparison
-                                                    .CurrentCultureIgnoreCase));
-});
+                                                                     x.MethodInfo.GetParameters()
+                                                                      .Any(p =>
+                                                                           p.ParameterType.Name
+                                                                            .Equals(
+                                                                                extendedMedaType.DomainModel,
+                                                                                StringComparison
+                                                                                    .CurrentCultureIgnoreCase)));
                     if (candidate != null)
                         return candidate;
-                }
+                };                        
+               
+                
             }
 
             return base.ResolveAmbiguousActions(context, actionDescriptors);
