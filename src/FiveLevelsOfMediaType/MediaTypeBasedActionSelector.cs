@@ -21,12 +21,12 @@ namespace FiveLevelsOfMediaType
                     var candidate = actionDescriptors.FirstOrDefault(x =>
                             {
                                 var parameterInfos = x.MethodInfo.GetParameters();
-                                return (parameterInfos.Count() == 1 && parameterInfos[0].ParameterType.Name
-                                                                                        .Equals(
-                                                                                            extendedMedaType.DomainModel,
-                                                                                            StringComparison
-                                                                                                .CurrentCultureIgnoreCase));
-                            });
+                                return (parameterInfos[0].ParameterType.Name
+                                            .Equals(
+                                                extendedMedaType.DomainModel,
+                                                StringComparison
+                                                    .CurrentCultureIgnoreCase));
+});
                     if (candidate != null)
                         return candidate;
                 }
