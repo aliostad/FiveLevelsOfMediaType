@@ -52,7 +52,7 @@ namespace FiveLevelsOfMediaType
 
         public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, System.Net.Http.Headers.MediaTypeHeaderValue mediaType)
         {
-            return _internalFormatter.GetPerRequestFormatterInstance(type, request, mediaType);
+            return this;
         }
 
         public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger, System.Threading.CancellationToken cancellationToken)
