@@ -32,17 +32,17 @@ namespace FiveLevelsOfMediaType
             return _internalFormatter.CanWriteType(type);
         }
 
-        public override Task WriteToStreamAsync(Type type, object value, 
+        public override async Task WriteToStreamAsync(Type type, object value, 
             Stream writeStream, HttpContent content, TransportContext transportContext)
         {
+            await _internalFormatter.WriteToStreamAsync(type, value, writeStream, content, transportContext);
             content.Headers.ContentType.AddFiveLevelsOfMediaType(type);
-            return _internalFormatter.WriteToStreamAsync(type, value, writeStream, content, transportContext);
         }
 
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext, System.Threading.CancellationToken cancellationToken)
+        public override async Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext, System.Threading.CancellationToken cancellationToken)
         {
+            await _internalFormatter.WriteToStreamAsync(type, value, writeStream, content, transportContext, cancellationToken);
             content.Headers.ContentType.AddFiveLevelsOfMediaType(type);
-            return _internalFormatter.WriteToStreamAsync(type, value, writeStream, content, transportContext, cancellationToken);
         }
 
         public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
