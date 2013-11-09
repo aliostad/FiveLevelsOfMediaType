@@ -13,13 +13,13 @@ namespace FiveLevelsOfMediaType
         public static void AddFiveLevelsOfMediaType(this MediaTypeHeaderValue header,Type type)
         {
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.DomainModel,
-                type.Name));
+                HttpUtility.UrlEncode(type.Name)));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.Version,
-                type.Assembly.GetName().Version.ToString()));
+                HttpUtility.UrlEncode(type.Assembly.GetName().Version.ToString())));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.Format,
-                ExtractFormat(header.MediaType).ReplaceHttpSeparators()));
+                HttpUtility.UrlEncode(ExtractFormat(header.MediaType))));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.Schema,
-                header.MediaType.ReplaceHttpSeparators()));
+                HttpUtility.UrlEncode(header.MediaType)));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.IsText,
                 "true")); // TODO: a map of textual content types
 
@@ -39,11 +39,12 @@ namespace FiveLevelsOfMediaType
             var isText = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.IsText));
             var schema = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.Schema));
             var version = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.Version));
-            extendedMediaType.DomainModel = domainModel == null ? string.Empty : domainModel.Value;
-            extendedMediaType.Format = format == null ? string.Empty : format.Value;
+            extendedMediaType.DomainModel = domainModel == null ? string.Empty : HttpUtility.UrlDecode(
+                domainModel.Value);
+            extendedMediaType.Format = format == null ? string.Empty : HttpUtility.UrlDecode(format.Value);
             extendedMediaType.IsText = isText == null ? null : (bool?) Convert.ToBoolean(isText.Value);
-            extendedMediaType.Schema = schema == null ? string.Empty : schema.Value;
-            extendedMediaType.Version = version == null ? string.Empty : version.Value;
+            extendedMediaType.Schema = schema == null ? string.Empty : HttpUtility.UrlDecode(schema.Value);
+            extendedMediaType.Version = version == null ? string.Empty : HttpUtility.UrlDecode(version.Value);
 
             return extendedMediaType;
         }
