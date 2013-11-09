@@ -13,7 +13,7 @@ namespace FiveLevelsOfMediaType
         public static void AddFiveLevelsOfMediaType(this MediaTypeHeaderValue header,Type type)
         {
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.DomainModel,
-                type.FullName));
+                type.Name));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.Version,
                 type.Assembly.GetName().Version.ToString()));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.Format,
