@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FFB884
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiveLevelsOfMediaType.Tests", "test\FiveLevelsOfMediaType.Tests\FiveLevelsOfMediaType.Tests.csproj", "{DFDC9DFA-7C34-4315-8C79-21AC7514251A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{238F34C0-6120-4025-8F76-7B7A58995412}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{238F34C0-6120-4025-8F76-7B7A58995412}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{238F34C0-6120-4025-8F76-7B7A58995412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFDC9DFA-7C34-4315-8C79-21AC7514251A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFDC9DFA-7C34-4315-8C79-21AC7514251A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFDC9DFA-7C34-4315-8C79-21AC7514251A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFDC9DFA-7C34-4315-8C79-21AC7514251A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

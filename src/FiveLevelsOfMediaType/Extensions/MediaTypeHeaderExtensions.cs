@@ -12,7 +12,6 @@ namespace FiveLevelsOfMediaType
     {
         public static void AddFiveLevelsOfMediaType(this MediaTypeHeaderValue header,Type type)
         {
-            header.Parameters.Clear();
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.DomainModel,
                 type.FullName));
             header.Parameters.Add(new NameValueHeaderValue(FiveLevelsOfMediaTypeParameters.Version,
