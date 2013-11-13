@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtendedMediaType.cs" />
+    <Compile Include="Extensions\OtherExtensions.cs" />
     <Compile Include="FiveLevelsOfMediaTypeFormatter.cs" />
     <Compile Include="FiveLevelsOfMediaTypeParameters.cs" />
     <Compile Include="Extensions\HttpConfigurationExtensions.cs" />

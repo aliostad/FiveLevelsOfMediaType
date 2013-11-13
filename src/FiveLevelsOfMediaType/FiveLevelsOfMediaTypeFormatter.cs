@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
 using System.Net;
@@ -13,6 +16,10 @@ namespace FiveLevelsOfMediaType
     public class FiveLevelsOfMediaTypeFormatter : MediaTypeFormatter
     {
         private MediaTypeFormatter _internalFormatter;
+        private readonly List<string> _supportedNonCanonicalMediaTypePatterns = new List<string>();
+
+        public static string DefaultNonCanonicalMediaTypePattern =
+            @"^([\w\.]+)/(([a-zA-Z\.]+)(?:([\-\.])v?([\d\.]+))?\+)?([\w\.-]+)$";
 
         public FiveLevelsOfMediaTypeFormatter(MediaTypeFormatter internalFormatter)
         {
@@ -20,6 +27,9 @@ namespace FiveLevelsOfMediaType
             _internalFormatter.SupportedEncodings.Each(x=> SupportedEncodings.Add(x));
             _internalFormatter.SupportedMediaTypes.Each(x => SupportedMediaTypes.Add(x));
             _internalFormatter.MediaTypeMappings.Each(x => MediaTypeMappings.Add(x));
+
+            _supportedNonCanonicalMediaTypePatterns.Add(
+              DefaultNonCanonicalMediaTypePattern);
         }
 
         public override bool CanReadType(Type type)
@@ -48,9 +58,14 @@ namespace FiveLevelsOfMediaType
             return _internalFormatter.ReadFromStreamAsync(type, readStream, content, formatterLogger);
         }
 
-        public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, System.Net.Http.Headers.MediaTypeHeaderValue mediaType)
+        public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, 
+            MediaTypeHeaderValue mediaType)
         {
-            return this;
+            var instance = _internalFormatter.GetPerRequestFormatterInstance(type, request, mediaType);
+            if(instance==null)
+                return this;
+            else
+                return new FiveLevelsOfMediaTypeFormatter(instance);
         }
 
         public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger, System.Threading.CancellationToken cancellationToken)
@@ -70,10 +85,15 @@ namespace FiveLevelsOfMediaType
             }
         }
 
+        public ICollection<string> SupportedNonCanonicalMediaTypePatterns
+        {
+            get { return _supportedNonCanonicalMediaTypePatterns; }
+        }
+
         public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
         {
             _internalFormatter.SetDefaultContentHeaders(type, headers, mediaType);
-            headers.ContentType.AddFiveLevelsOfMediaType(type);
+            headers.ContentType.AddFiveLevelsOfMediaType(type, DefaultNonCanonicalMediaTypePattern);
         }
 
     }
