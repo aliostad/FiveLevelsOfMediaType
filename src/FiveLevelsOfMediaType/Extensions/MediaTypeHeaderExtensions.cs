@@ -54,9 +54,7 @@ namespace FiveLevelsOfMediaType
             if (header == null)
                 return null;
 
-            var extendedMediaType = new ExtendedMediaType();
-
-            extendedMediaType = GetExtendedMediaType(header.MediaType, nonCanonicalMediaTypePatterns);
+            var extendedMediaType = GetExtendedMediaType(header.MediaType, nonCanonicalMediaTypePatterns);
 
             if (extendedMediaType != null)
                 return extendedMediaType;
@@ -65,6 +63,7 @@ namespace FiveLevelsOfMediaType
             if (header.Parameters.Count == 0)
                 return null;
 
+            extendedMediaType = new ExtendedMediaType();
             var domainModel = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.DomainModel));
             var format = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.Format));
             var isText = header.Parameters.FirstOrDefault(x => x.Name.Equals(FiveLevelsOfMediaTypeParameters.IsText));
