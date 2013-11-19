@@ -70,6 +70,9 @@
   <ItemGroup>
     <Compile Include="Integration\DummyMessageHandler.cs" />
     <Compile Include="Integration\FiveLevelsOfMediaTypeFormatterTests.cs" />
+    <Compile Include="Integration\InMemoryServer.cs" />
+    <Compile Include="Integration\ItemController.cs" />
+    <Compile Include="Integration\MediaTypeBasedActionSelectorTests.cs" />
     <Compile Include="MediaTypeParsing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,7 +83,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
