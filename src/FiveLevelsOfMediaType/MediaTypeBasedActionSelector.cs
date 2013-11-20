@@ -13,9 +13,10 @@ namespace FiveLevelsOfMediaType
     public class MediaTypeBasedActionSelector : ApiActionSelector
     {
         private readonly Func<string, string> _domainNameToTypeNameMapper;
+        private Func<ReflectedHttpActionDescriptor, string, bool> _versionChecker;
 
         public MediaTypeBasedActionSelector()
-            : this(DefaultMapper)
+            : this(DefaultMapper, DefaultVersionChecker)
         {
             
         }
@@ -28,8 +29,11 @@ namespace FiveLevelsOfMediaType
         /// non-canonical doamin-name. For example if domain name is vnd.MyCompany.MyType then it
         /// returns MyType. Or it just maps it to any arbitrary value.
         /// Default mapper takes the token after the last period.</param>
-        public MediaTypeBasedActionSelector(Func<string, string> domainNameToTypeNameMapper)
+        /// <param name="versionChecker">A function that checks the version against descriptor</param>        
+        public MediaTypeBasedActionSelector(Func<string, string> domainNameToTypeNameMapper,
+            Func<ReflectedHttpActionDescriptor, string, bool> versionChecker)
         {
+            _versionChecker = versionChecker;
             _domainNameToTypeNameMapper = domainNameToTypeNameMapper;
         }
 
@@ -44,10 +48,14 @@ namespace FiveLevelsOfMediaType
             }
         }
 
-        protected override ReflectedHttpActionDescriptor ResolveAmbiguousActions(HttpControllerContext context,
-            IEnumerable<ReflectedHttpActionDescriptor> actionDescriptors)
+        private static bool DefaultVersionChecker(ReflectedHttpActionDescriptor actionDescriptor, string version)
         {
+            return Assembly.GetAssembly(actionDescriptor.ReturnType).GetName().Version.ToString() == version;
+        }
 
+        protected virtual ReflectedHttpActionDescriptor ProcessRequestContentHeader(HttpControllerContext context,
+                                   IEnumerable<ReflectedHttpActionDescriptor> actionDescriptors)
+        {
             // normally for POST and PUT that we resolve with content type
             if (context.Request.Content != null && context.Request.Content.Headers.ContentType != null)
             {
@@ -64,37 +72,54 @@ namespace FiveLevelsOfMediaType
                                                                                     .CurrentCultureIgnoreCase)));
                     if (candidate != null)
                         return candidate;
-                };                        
-               
-                
+                };
+
             }
 
+            return null;
+
+        }
+
+        protected virtual ReflectedHttpActionDescriptor ProcessAcceptHeader(HttpControllerContext context,
+                                                                              IEnumerable<ReflectedHttpActionDescriptor>
+                                                                                  actionDescriptors)
+        {
             // GET calls that can be resolved by Accept which has a Non-Canonical Media Type
             // only if it is the first item in Accept Header
             if (context.Request.Method.Method == "GET" && context.Request.Headers.Accept.Count > 0)
             {
                 var extendedMediaType = context.Request.Headers.Accept.First()
                     .ExtractFiveLevelsOfMediaType(FiveLevelsOfMediaTypeFormatter.DefaultNonCanonicalMediaTypePattern);
-                
+
                 if (extendedMediaType != null && !string.IsNullOrEmpty(extendedMediaType.DomainModel))
                 {
                     var matches = actionDescriptors.Where(x => x.MethodInfo.ReturnType.Name ==
-                        _domainNameToTypeNameMapper(extendedMediaType.DomainModel));
+                        _domainNameToTypeNameMapper(extendedMediaType.DomainModel)).ToArray();
 
-                    if (matches.Count() == 1)
+                    if (matches.Length == 1)
                         return matches.First();
 
-                    if (matches.Count() > 1)
+                    if (matches.Length > 1)
                     {
-                        var theMatchBasedOnVersion = matches.FirstOrDefault(x => Assembly.GetAssembly(x.ReturnType).GetName().Version.ToString() == 
-                            _domainNameToTypeNameMapper(extendedMediaType.Version));
+
+                        var theMatchBasedOnVersion = matches.FirstOrDefault(x => _versionChecker(x, extendedMediaType.Version));
                         if (theMatchBasedOnVersion != null)
                             return theMatchBasedOnVersion;
                     }
                 }
             }
 
-            return base.ResolveAmbiguousActions(context, actionDescriptors);
+            return null;
+
+        }        
+
+        protected override ReflectedHttpActionDescriptor ResolveAmbiguousActions(HttpControllerContext context,
+            IEnumerable<ReflectedHttpActionDescriptor> actionDescriptors)
+        {
+
+            return ProcessRequestContentHeader(context, actionDescriptors) ??
+                ProcessAcceptHeader(context, actionDescriptors) ??
+                base.ResolveAmbiguousActions(context, actionDescriptors);
         }
     }
 }
