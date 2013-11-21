@@ -86,6 +86,7 @@ namespace FiveLevelsOfMediaType
         {
             // GET calls that can be resolved by Accept which has a Non-Canonical Media Type
             // only if it is the first item in Accept Header
+            // use of 5LMT header parameters also supported
             if (context.Request.Method.Method == "GET" && context.Request.Headers.Accept.Count > 0)
             {
                 var extendedMediaType = context.Request.Headers.Accept.First()
